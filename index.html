@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Login — Exemplo</title>
+  <style>
+    :root{--bg:#f3f4f6;--card:#fff;--accent:#2563eb}
+    *{box-sizing:border-box}
+    body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#e6eefc, #f8fafc);font-family:Inter, system-ui, "Segoe UI", Roboto, "Helvetica Neue", Arial}
+    .card{width:360px;background:var(--card);padding:28px;border-radius:12px;box-shadow:0 8px 30px rgba(16,24,40,0.08);}
+    h1{margin:0 0 8px;font-size:20px}
+    p.lead{margin:0 0 18px;color:#475569;font-size:13px}
+    label{display:block;font-size:12px;color:#374151;margin-bottom:6px}
+    input[type=text],input[type=password]{width:100%;padding:10px 12px;border:1px solid #e6e9ef;border-radius:8px;font-size:14px}
+    .row{display:flex;gap:8px;align-items:center}
+    .actions{margin-top:14px;display:flex;justify-content:space-between;align-items:center}
+    button{background:var(--accent);color:#fff;border:none;padding:9px 14px;border-radius:8px;font-weight:600;cursor:pointer}
+    .msg{margin-top:16px;padding:12px;border-radius:8px;background:#eef2ff;color:#1e293b;display:none}
+    .small{font-size:12px;color:#6b7280}
+    .toggle{background:transparent;border:none;color:var(--accent);cursor:pointer;font-weight:600}
+    .error{color:#b91c1c;font-size:13px;margin-top:8px;display:none}
+  </style>
+</head>
+<body>
+  <main class="card" role="main">
+    <h1>Entrar</h1>
+    <p class="lead">Digite seu usuário e senha.</p>
+
+    <form id="loginForm">
+      <div style="margin-bottom:12px">
+        <label for="user">Usuário</label>
+        <input id="user" name="user" type="text" autocomplete="username" placeholder="seu.usuario" />
+      </div>
+
+      <div style="margin-bottom:6px">
+        <label for="pass">Senha</label>
+        <div class="row">
+          <input id="pass" name="pass" type="password" autocomplete="current-password" placeholder="••••••••" />
+          <button type="button" class="toggle" id="togglePass">mostrar</button>
+        </div>
+      </div>
+
+      <div class="error" id="error">Preencha usuário e senha.</div>
+
+      <div class="actions">
+        <span class="small"></span>
+        <button type="submit">Entrar</button>
+      </div>
+    </form>
+
+    <div class="msg" id="message" role="status" aria-live="polite"></div>
+  </main>
+
+  <script>
+    const form = document.getElementById('loginForm');
+    const userInput = document.getElementById('user');
+    const passInput = document.getElementById('pass');
+    const message = document.getElementById('message');
+    const error = document.getElementById('error');
+    const toggle = document.getElementById('togglePass');
+
+    toggle.addEventListener('click', () => {
+      const t = passInput.type === 'password' ? 'text' : 'password';
+      passInput.type = t;
+      toggle.textContent = t === 'password' ? 'mostrar' : 'ocultar';
+    });
+
+    function nomeAleatorio() {
+      const nomes = ["Carlos123", "AnaDev", "JoaoX9", "LaraTech", "User2025"];
+      return nomes[Math.floor(Math.random() * nomes.length)];
+    }
+
+    form.addEventListener('submit', (ev) => {
+      ev.preventDefault();
+      error.style.display = 'none';
+      message.style.display = 'none';
+
+      const user = userInput.value.trim();
+      const pass = passInput.value.trim();
+
+      if (!user || !pass) {
+        error.style.display = 'block';
+        return;
+      }
+
+      const nomeErrado = nomeAleatorio();
+
+      message.textContent = `Olá, ${user}! Você errou a senha, essa senha é do Usuário ${nomeErrado}.`;
+      message.style.display = 'block';
+    });
+  </script>
+</body>
+</html>
